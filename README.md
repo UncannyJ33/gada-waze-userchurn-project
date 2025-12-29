@@ -11,14 +11,15 @@ The notebooks and results are intended as a portfolio project for the Google Adv
 .
 ├── data/
 │ └── waze_dataset.csv # Waze user‑level dataset (synthetic)
+│
 ├── notebooks/
 │ ├── 01_data_overview.ipynb # Data types, missingness, first churn insights
 │ ├── 02_eda.ipynb # Univariate/bivariate EDA and behavioral patterns
-│ ├── 03_stats_hypothesis.ipynb
-│ │ # Two‑sample hypothesis test (iPhone vs Android rides)
+│ ├── 03_stats_hypothesis.ipynb # Two‑sample hypothesis test (iPhone vs Android rides)
 │ ├── 04_regression_modeling.ipynb
 │ │ # Logistic regression churn model and diagnostics
 │ └── 05_ml_tree_models.ipynb # Random Forest and XGBoost churn models
+│
 ├── README.md
 └── requirements.txt # Project dependencies
 
@@ -90,3 +91,52 @@ Focus: higher‑capacity models and feature importance.
   - XGBoost achieves higher recall than both logistic regression and Random Forest, with comparable accuracy and precision.[web:85]  
   - Confusion matrix shows many churners are still missed at the default threshold, so the model is better suited as decision support than as a fully automated system.  
   - Feature importance emphasizes engineered variables (e.g., intensity and recency metrics) alongside core usage signals, reinforcing the value of thoughtful feature engineering.
+
+
+## How to run the project
+
+1. **Clone the repository**
+git clone https://github.com/<your-username>/waze-user-churn.git
+cd waze-user-churn
+
+
+2. **Create and activate a virtual environment (optional but recommended)**
+python -m venv .venv
+source .venv/bin/activate # On Windows: .venv\Scripts\activate
+
+
+3. **Install dependencies**
+pip install -r requirements.txt
+
+
+4. **Open the notebooks**
+jupyter notebook
+
+
+Then run the notebooks in order from `01_data_overview` to `05_ml_tree_models`.
+
+---
+
+## Dependencies
+
+Add the following to `requirements.txt` (versions optional, include if you want reproducibility):
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+xgboost
+jupyter
+
+
+If you used any additional packages (for example, `scipy` in the hypothesis‑testing notebook), include them as well.
+
+---
+
+## Key takeaways
+
+- Churn is closely tied to **frequency** and **intensity** of use: frequent drivers tend to be retained, while very high‑intensity long‑distance drivers are more likely to churn.[web:9][web:26]  
+- Logistic regression provides an interpretable baseline, highlighting key drivers such as activity days, but underperforms on recall.  
+- Tree‑based ensembles (Random Forest, XGBoost) improve recall while leveraging engineered features, showing the impact of domain‑driven feature design in churn prediction.[web:85][web:26]
+
+This project demonstrates an end‑to‑end analytics workflow—EDA, statistical testing, interpretable modeling, and advanced machine learning—on a realistic churn problem.
