@@ -7,18 +7,18 @@ The notebooks and results are intended as a portfolio project for the Google Adv
 ---
 
 ## Project structure
-
-- **data/** → `waze_dataset.csv`
-- **notebooks/**
-  - [![1_Data_Overview](https://img.shields.io/badge/-Notebook-bluenotebooks/1_Data_Overview, missingness, first churn insights
-  - [![2_Exploratory_Data_Analysis](https://img.shields.io/badge/-Notebook-bluenotebooks/2_Exploratory_Dataivariate/bivariate EDA and behavioral patterns
-  - [![3_Statistical_Analysis](https://img.shields.io/badge/-Notebook-bluenotebooks/3_Statistical_A‑sample hypothesis test (iPhone vs Android rides)
-  - [![4_Logistic_Regression_Modeling](https://img.shields.io/badge/-Notebook-bluenotebooks/4_Logistic_Regression regression churn model and diagnostics
-  - [![5_Tree-based_Machine_Learning](https://img.shields.io/badge/-Notebook-bluenotebooks/5_Tree-based_Machine Forest and XGBoost churn models
-- `README.md`
-- `requirements.txt`
-
-
+```
+.
+├── waze_dataset.csv
+├── notebooks/
+│ ├── 1_Data_Overview.ipynb
+│ ├── 2_Exploratory_Data_Analysis.ipynb
+│ ├── 3_Statistical_Analysis.ipynb
+│ ├── 4_Logistic_Regression_Modeling.ipynb
+│ └── 5_Tree-based_Machine_Learning.ipynb
+├── README.md
+└── requirements.txt
+```
 
 ---
 
