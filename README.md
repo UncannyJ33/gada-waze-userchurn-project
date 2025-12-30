@@ -1,6 +1,3 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UncannyJ33/gada-waze-userchurn-project/main)
-
-
 # Waze User Churn Analysis & Prediction
 
 This project analyzes user behavior in a synthetic Waze dataset and builds predictive models to estimate monthly user churn. The work progresses from initial data inspection through exploratory data analysis (EDA), statistical testing, regression modeling, and tree‑based machine learning (Random Forest, XGBoost).
@@ -10,21 +7,17 @@ The notebooks and results are intended as a portfolio project for the Google Adv
 ---
 
 ## Project structure
-```
-.
-├── data/
-│ └── waze_dataset.csv # Waze user‑level dataset (synthetic)
-│
-├── notebooks/
-│ ├── 1_Data_Overview.ipynb # Data types, missingness, first churn insights
-│ ├── 2_Exploratory_Data_Analysis.ipynb # Univariate/bivariate EDA and behavioral patterns
-│ ├── 3_Statistical_Analysis.ipynb # Two‑sample hypothesis test (iPhone vs Android rides)
-│ ├── 4_Logistic_Regression_Modeling.ipynb # Logistic regression churn model and diagnostics
-│ └── 5_Tree-based_Machine_Learning.ipynb # Random Forest and XGBoost churn models
-│
-├── README.md
-└── requirements.txt # Project dependencies
-```
+
+- **data/** → `waze_dataset.csv`
+- **notebooks/**
+  - [![1_Data_Overview](https://img.shields.io/badge/-Notebook-bluenotebooks/1_Data_Overview, missingness, first churn insights
+  - [![2_Exploratory_Data_Analysis](https://img.shields.io/badge/-Notebook-bluenotebooks/2_Exploratory_Dataivariate/bivariate EDA and behavioral patterns
+  - [![3_Statistical_Analysis](https://img.shields.io/badge/-Notebook-bluenotebooks/3_Statistical_A‑sample hypothesis test (iPhone vs Android rides)
+  - [![4_Logistic_Regression_Modeling](https://img.shields.io/badge/-Notebook-bluenotebooks/4_Logistic_Regression regression churn model and diagnostics
+  - [![5_Tree-based_Machine_Learning](https://img.shields.io/badge/-Notebook-bluenotebooks/5_Tree-based_Machine Forest and XGBoost churn models
+- `README.md`
+- `requirements.txt`
+
 
 
 ---
@@ -45,7 +38,7 @@ Predict whether a user will churn within the month and identify behavioral drive
 
 ## Notebooks overview
 
-### 1 – Data overview ([1_Data_Overview.ipynb](notebooks/1_Data_Overview.ipynb))
+### 1 – Data overview ([1_Data_Overview.ipynb](1_Data_Overview.ipynb))
 
 **Focus:** verify schema, inspect missing values, and compute initial churn and behavior summaries.
 
@@ -53,7 +46,7 @@ Predict whether a user will churn within the month and identify behavioral drive
 - Finds a moderately imbalanced target: ~17–18% churn vs 82–83% retention  
 - Compares medians for churned vs retained users (`drives`, distance, driving days) and constructs early hypotheses about "super‑drivers" and churn risk
 
-### 2 – Exploratory data analysis ([2_Exploratory_Data_Analysis.ipynb](notebooks/2_Exploratory_Data_Analysis.ipynb))
+### 2 – Exploratory data analysis ([2_Exploratory_Data_Analysis.ipynb](2_Exploratory_Data_Analysis.ipynb))
 
 **Focus:** visual EDA and behavioral segmentation.
 
@@ -63,7 +56,7 @@ Predict whether a user will churn within the month and identify behavioral drive
 - Finds churn probability rises with higher `km_per_driving_day`, but higher driving **frequency** correlates with retention  
 - Examines recent activity via `percent_sessions_in_last_month`, noting many long‑tenure users suddenly show high recent engagement
 
-### 3 – Statistical analysis ([3_Statistical_Analysis.ipynb](notebooks/3_Statistical_Analysis.ipynb))
+### 3 – Statistical analysis ([3_Statistical_Analysis.ipynb](3_Statistical_Analysis.ipynb))
 
 **Focus:** two‑sample hypothesis test on ride counts by device.
 
@@ -71,7 +64,7 @@ Predict whether a user will churn within the month and identify behavioral drive
 - Uses descriptive statistics and Welch two‑sample t‑test  
 - Finds small observed difference but **fails to reject** null hypothesis at 5% significance—no strong evidence device type drives ride volume
 
-### 4 – Logistic regression modeling ([4_Logistic_Regression_Modeling.ipynb](notebooks/4_Logistic_Regression_Modeling.ipynb))
+### 4 – Logistic regression modeling ([4_Logistic_Regression_Modeling.ipynb](4_Logistic_Regression_Modeling.ipynb))
 
 **Focus:** interpretable baseline churn model.
 
@@ -80,7 +73,7 @@ Predict whether a user will churn within the month and identify behavioral drive
 - Fits binomial logistic regression; **activity_days** strongest retention predictor  
 - Recall limited (~9%), useful explanatory baseline but not high‑recall production model
 
-### 5 – Tree‑based machine learning ([5_Tree-based_Machine_Learning.ipynb](notebooks/5_Tree-based_Machine_Learning.ipynb))
+### 5 – Tree‑based machine learning ([5_Tree-based_Machine_Learning.ipynb](5_Tree-based_Machine_Learning.ipynb))
 
 **Focus:** higher‑capacity models and feature importance.
 
