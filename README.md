@@ -7,7 +7,7 @@ The notebooks and results are intended as a portfolio project for the Google Adv
 ---
 
 ## Project structure
-
+```
 .
 ├── data/
 │ └── waze_dataset.csv # Waze user‑level dataset (synthetic)
@@ -22,10 +22,11 @@ The notebooks and results are intended as a portfolio project for the Google Adv
 │
 ├── README.md
 └── requirements.txt # Project dependencies
+```
 
 ## Data and problem statement
 
-The dataset contains anonymized, user‑level records with monthly app usage and driving behavior, including:[web:9][web:63]
+The dataset contains anonymized, user‑level records with monthly app usage and driving behavior, including:
 
 - App activity: sessions, total_sessions, activity_days  
 - Driving behavior: drives, driven_km_drives, driving_days, duration_minutes_drives  
@@ -33,7 +34,7 @@ The dataset contains anonymized, user‑level records with monthly app usage and
 - Target: `label` indicating whether the user was **retained** or **churned**
 
 **Goal:**  
-Predict whether a user will churn within the month and identify behavioral drivers of churn to inform retention strategies (for example, heavy long‑distance drivers vs frequent short‑trip users).[web:1][web:85]
+Predict whether a user will churn within the month and identify behavioral drivers of churn to inform retention strategies (for example, heavy long‑distance drivers vs frequent short‑trip users).
 
 ---
 
@@ -43,7 +44,7 @@ Predict whether a user will churn within the month and identify behavioral drive
 
 Focus: verify schema, inspect missing values, and compute initial churn and behavior summaries.
 
-- Confirms 14,999 users with 700 missing churn labels, all in `label`; missingness appears roughly random.[web:9]  
+- Confirms 14,999 users with 700 missing churn labels, all in `label`; missingness appears roughly random.
 - Finds a moderately imbalanced target: roughly 17–18% churn vs 82–83% retention.  
 - Compares medians for churned vs retained users (drives, distance, driving days) and constructs early hypotheses about “super‑drivers” and churn risk.
 
@@ -52,7 +53,7 @@ Focus: verify schema, inspect missing values, and compute initial churn and beha
 Focus: visual EDA and behavioral segmentation.
 
 - Explores distributions for sessions, drives, distance, duration, activity_days, driving_days, and device.  
-- Identifies a high‑intensity segment: users with very long monthly distances and hours driven (likely professional/long‑haul drivers).[web:9]  
+- Identifies a high‑intensity segment: users with very long monthly distances and hours driven (likely professional/long‑haul drivers).  
 - Shows churn is highest among users with **zero** driving days and lowest among those who drive almost every day.  
 - Finds that churn probability rises with higher `km_per_driving_day`, while higher driving **frequency** (more driving days) is associated with retention.  
 - Examines recent activity via `percent_sessions_in_last_month`, noting many long‑tenure users suddenly show high recent engagement.
@@ -63,7 +64,7 @@ Focus: two‑sample hypothesis test on ride counts by device.
 
 - Research question: Is there a statistically significant difference in mean drives between iPhone and Android users?  
 - Uses descriptive statistics and a Welch two‑sample t‑test to compare mean rides.  
-- Finds a small observed difference in average drives but **fails to reject** the null hypothesis at 5% significance—no strong evidence that device type drives ride volume.[web:1]
+- Finds a small observed difference in average drives but **fails to reject** the null hypothesis at 5% significance—no strong evidence that device type drives ride volume.
 
 ### 04 – Logistic regression modeling (`04_regression_modeling.ipynb`)
 
@@ -88,7 +89,7 @@ Focus: higher‑capacity models and feature importance.
   - **XGBoost** with a broader grid for depth, learning rate, and child weight.  
 - Uses **recall** as the primary selection metric due to the cost of missing churners.  
 - Results:
-  - XGBoost achieves higher recall than both logistic regression and Random Forest, with comparable accuracy and precision.[web:85]  
+  - XGBoost achieves higher recall than both logistic regression and Random Forest, with comparable accuracy and precision.
   - Confusion matrix shows many churners are still missed at the default threshold, so the model is better suited as decision support than as a fully automated system.  
   - Feature importance emphasizes engineered variables (e.g., intensity and recency metrics) alongside core usage signals, reinforcing the value of thoughtful feature engineering.
 
@@ -96,22 +97,26 @@ Focus: higher‑capacity models and feature importance.
 ## How to run the project
 
 1. **Clone the repository**
+```
 git clone https://github.com/<your-username>/waze-user-churn.git
 cd waze-user-churn
-
+```
 
 2. **Create and activate a virtual environment (optional but recommended)**
+```
 python -m venv .venv
 source .venv/bin/activate # On Windows: .venv\Scripts\activate
-
+```
 
 3. **Install dependencies**
+```
 pip install -r requirements.txt
-
+```
 
 4. **Open the notebooks**
+```
 jupyter notebook
-
+```
 
 Then run the notebooks in order from `01_data_overview` to `05_ml_tree_models`.
 
@@ -120,6 +125,7 @@ Then run the notebooks in order from `01_data_overview` to `05_ml_tree_models`.
 ## Dependencies
 
 Add the following to `requirements.txt` (versions optional, include if you want reproducibility):
+```
 pandas
 numpy
 matplotlib
@@ -127,7 +133,7 @@ seaborn
 scikit-learn
 xgboost
 jupyter
-
+```
 
 If you used any additional packages (for example, `scipy` in the hypothesis‑testing notebook), include them as well.
 
@@ -135,8 +141,8 @@ If you used any additional packages (for example, `scipy` in the hypothesis‑te
 
 ## Key takeaways
 
-- Churn is closely tied to **frequency** and **intensity** of use: frequent drivers tend to be retained, while very high‑intensity long‑distance drivers are more likely to churn.[web:9][web:26]  
+- Churn is closely tied to **frequency** and **intensity** of use: frequent drivers tend to be retained, while very high‑intensity long‑distance drivers are more likely to churn.
 - Logistic regression provides an interpretable baseline, highlighting key drivers such as activity days, but underperforms on recall.  
-- Tree‑based ensembles (Random Forest, XGBoost) improve recall while leveraging engineered features, showing the impact of domain‑driven feature design in churn prediction.[web:85][web:26]
+- Tree‑based ensembles (Random Forest, XGBoost) improve recall while leveraging engineered features, showing the impact of domain‑driven feature design in churn prediction.
 
 This project demonstrates an end‑to‑end analytics workflow—EDA, statistical testing, interpretable modeling, and advanced machine learning—on a realistic churn problem.
