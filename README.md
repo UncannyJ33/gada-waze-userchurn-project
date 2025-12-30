@@ -13,24 +13,26 @@ The notebooks and results are intended as a portfolio project for the Google Adv
 │ └── waze_dataset.csv # Waze user‑level dataset (synthetic)
 │
 ├── notebooks/
-│ ├── 01_data_overview.ipynb # Data types, missingness, first churn insights
-│ ├── 02_eda.ipynb # Univariate/bivariate EDA and behavioral patterns
-│ ├── 03_stats_hypothesis.ipynb # Two‑sample hypothesis test (iPhone vs Android rides)
-│ ├── 04_regression_modeling.ipynb
-│ │ # Logistic regression churn model and diagnostics
-│ └── 05_ml_tree_models.ipynb # Random Forest and XGBoost churn models
+│ ├── 1_Data_Overview.ipynb # Data types, missingness, first churn insights
+│ ├── 2_Exploratory_Data_Analysis.ipynb # Univariate/bivariate EDA and behavioral patterns
+│ ├── 3_Statistical_Analysis.ipynb # Two‑sample hypothesis test (iPhone vs Android rides)
+│ ├── 4_Logistic_Regression_Modeling.ipynb # Logistic regression churn model and diagnostics
+│ └── 5_Tree-based_Machine_Learning.ipynb # Random Forest and XGBoost churn models
 │
 ├── README.md
 └── requirements.txt # Project dependencies
 ```
 
+
+---
+
 ## Data and problem statement
 
 The dataset contains anonymized, user‑level records with monthly app usage and driving behavior, including:
 
-- App activity: sessions, total_sessions, activity_days  
-- Driving behavior: drives, driven_km_drives, driving_days, duration_minutes_drives  
-- Profile/tenure: n_days_after_onboarding, device  
+- App activity: `sessions`, `total_sessions`, `activity_days`  
+- Driving behavior: `drives`, `driven_km_drives`, `driving_days`, `duration_minutes_drives`  
+- Profile/tenure: `n_days_after_onboarding`, `device`  
 - Target: `label` indicating whether the user was **retained** or **churned**
 
 **Goal:**  
@@ -40,69 +42,62 @@ Predict whether a user will churn within the month and identify behavioral drive
 
 ## Notebooks overview
 
-### 01 – Data overview (`01_data_overview.ipynb`)
+### 1 – Data overview (`1_Data_Overview.ipynb`)
 
-Focus: verify schema, inspect missing values, and compute initial churn and behavior summaries.
+**Focus:** verify schema, inspect missing values, and compute initial churn and behavior summaries.
 
-- Confirms 14,999 users with 700 missing churn labels, all in `label`; missingness appears roughly random.
-- Finds a moderately imbalanced target: roughly 17–18% churn vs 82–83% retention.  
-- Compares medians for churned vs retained users (drives, distance, driving days) and constructs early hypotheses about “super‑drivers” and churn risk.
+- Confirms 14,999 users with 700 missing churn labels (~5%), all in `label`; missingness appears roughly random  
+- Finds a moderately imbalanced target: ~17–18% churn vs 82–83% retention  
+- Compares medians for churned vs retained users (`drives`, distance, driving days) and constructs early hypotheses about "super‑drivers" and churn risk
 
-### 02 – Exploratory data analysis (`02_eda.ipynb`)
+### 2 – Exploratory data analysis (`2_Exploratory_Data_Analysis.ipynb`)
 
-Focus: visual EDA and behavioral segmentation.
+**Focus:** visual EDA and behavioral segmentation.
 
-- Explores distributions for sessions, drives, distance, duration, activity_days, driving_days, and device.  
-- Identifies a high‑intensity segment: users with very long monthly distances and hours driven (likely professional/long‑haul drivers).  
-- Shows churn is highest among users with **zero** driving days and lowest among those who drive almost every day.  
-- Finds that churn probability rises with higher `km_per_driving_day`, while higher driving **frequency** (more driving days) is associated with retention.  
-- Examines recent activity via `percent_sessions_in_last_month`, noting many long‑tenure users suddenly show high recent engagement.
+- Explores distributions for `sessions`, `drives`, distance, duration, `activity_days`, `driving_days`, and `device`  
+- Identifies a high‑intensity segment: users with very long monthly distances/hours (likely professional/long‑haul drivers)  
+- Shows churn highest among users with **zero** driving days, lowest among daily drivers  
+- Finds churn probability rises with higher `km_per_driving_day`, but higher driving **frequency** correlates with retention  
+- Examines recent activity via `percent_sessions_in_last_month`, noting many long‑tenure users suddenly show high recent engagement
 
-### 03 – Statistical analysis (`03_stats_hypothesis.ipynb`)
+### 3 – Statistical analysis (`3_Statistical_Analysis.ipynb`)
 
-Focus: two‑sample hypothesis test on ride counts by device.
+**Focus:** two‑sample hypothesis test on ride counts by device.
 
 - Research question: Is there a statistically significant difference in mean drives between iPhone and Android users?  
-- Uses descriptive statistics and a Welch two‑sample t‑test to compare mean rides.  
-- Finds a small observed difference in average drives but **fails to reject** the null hypothesis at 5% significance—no strong evidence that device type drives ride volume.
+- Uses descriptive statistics and Welch two‑sample t‑test  
+- Finds small observed difference but **fails to reject** null hypothesis at 5% significance—no strong evidence device type drives ride volume
 
-### 04 – Logistic regression modeling (`04_regression_modeling.ipynb`)
+### 4 – Logistic regression modeling (`4_Logistic_Regression_Modeling.ipynb`)
 
-Focus: interpretable baseline churn model.
+**Focus:** interpretable baseline churn model.
 
-- Engineers features such as `km_per_driving_day`, `km_per_drive`, `professional_driver`, and device encoding.  
-- Handles missing labels and caps extreme outliers for key usage variables.  
-- Fits a binomial logistic regression model and inspects coefficients and log‑odds linearity.  
-- Finds:
-  - **activity_days** is the strongest retention predictor (more active days → lower churn odds).  
-  - Very high driving intensity features do not remain as strong once other variables are included.  
-  - Recall on churners is limited, making this a useful explanatory baseline but not a high‑recall production model.
+- Engineers features: `km_per_driving_day`, `km_per_drive`, `professional_driver`, device encoding  
+- Handles missing labels, winsorizes extreme outliers at 95th percentile  
+- Fits binomial logistic regression; **activity_days** strongest retention predictor  
+- Recall limited (~9%), useful explanatory baseline but not high‑recall production model
 
-### 05 – Tree‑based machine learning (`05_ml_tree_models.ipynb`)
+### 5 – Tree‑based machine learning (`5_Tree-based_Machine_Learning.ipynb`)
 
-Focus: higher‑capacity models and feature importance.
+**Focus:** higher‑capacity models and feature importance.
 
-- Reuses engineered features and encodes `device` and `label` as numeric.  
-- Splits data into 60/20/20 train/validation/test sets with stratification.  
-- Models:
-  - **Random Forest** with GridSearchCV over a compact hyperparameter grid.  
-  - **XGBoost** with a broader grid for depth, learning rate, and child weight.  
-- Uses **recall** as the primary selection metric due to the cost of missing churners.  
-- Results:
-  - XGBoost achieves higher recall than both logistic regression and Random Forest, with comparable accuracy and precision.
-  - Confusion matrix shows many churners are still missed at the default threshold, so the model is better suited as decision support than as a fully automated system.  
-  - Feature importance emphasizes engineered variables (e.g., intensity and recency metrics) alongside core usage signals, reinforcing the value of thoughtful feature engineering.
+- Reuses engineered features; 60/20/20 stratified train/validation/test split  
+- **Random Forest**: GridSearchCV over compact hyperparameter grid  
+- **XGBoost**: Broader grid (depth, learning rate, child weight); **recall** primary metric  
+- **Results**: XGBoost > Random Forest > Logistic Regression on recall; engineered features dominate importance  
+- Confusion matrix shows many churners missed at default threshold—better as decision support
 
+---
 
 ## How to run the project
 
 1. **Clone the repository**
 ```
-git clone https://github.com/<your-username>/waze-user-churn.git
+git clone https://github.com/UncannyJ33/gada-waze-userchurn-project.git
 cd waze-user-churn
 ```
 
-2. **Create and activate a virtual environment (optional but recommended)**
+2. **Create and activate a virtual environment (recommended)**
 ```
 python -m venv .venv
 source .venv/bin/activate # On Windows: .venv\Scripts\activate
@@ -115,10 +110,10 @@ pip install -r requirements.txt
 
 4. **Open the notebooks**
 ```
-jupyter notebook
+jupyter lab
 ```
 
-Then run the notebooks in order from `01_data_overview` to `05_ml_tree_models`.
+Then run the notebooks in order from `1_Data_Overview` to `5_Tree-based_Machine_Learning`.
 
 ---
 
@@ -131,18 +126,22 @@ numpy
 matplotlib
 seaborn
 scikit-learn
+scipy
 xgboost
-jupyter
+jupyterlab
 ```
-
-If you used any additional packages (for example, `scipy` in the hypothesis‑testing notebook), include them as well.
 
 ---
 
+
+
 ## Key takeaways
 
-- Churn is closely tied to **frequency** and **intensity** of use: frequent drivers tend to be retained, while very high‑intensity long‑distance drivers are more likely to churn.
-- Logistic regression provides an interpretable baseline, highlighting key drivers such as activity days, but underperforms on recall.  
-- Tree‑based ensembles (Random Forest, XGBoost) improve recall while leveraging engineered features, showing the impact of domain‑driven feature design in churn prediction.
+- **Churn drivers**: Frequency (`activity_days`) strongest retention signal; high‑intensity long‑distance drivers more likely to churn
+- **Professional drivers** (~7.6% churn vs ~20% overall) identified via domain thresholds
+- **Logistic regression**: Interpretable baseline, `activity_days` dominant predictor
+- **Tree models**: XGBoost highest recall; engineered features (intensity/recency) crucial
+- **Model suitability**: Decision support/experimentation baseline, not production-ready (low recall misses many churners)
 
-This project demonstrates an end‑to‑end analytics workflow—EDA, statistical testing, interpretable modeling, and advanced machine learning—on a realistic churn problem.
+This project demonstrates end‑to‑end analytics: EDA → statistical testing → interpretable modeling → advanced ML on realistic churn prediction.
+
